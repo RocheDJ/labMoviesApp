@@ -2,7 +2,7 @@
 
  HDip Full Stack Development II
 
-## Readme file for Programming-Web Development II Assignment "WeatherTop V2"  (July 2022)
+## Readme file for HDip Full Stack Development II Lab Work 
 
 ### **Introduction**
 
