@@ -61,6 +61,18 @@ export default {
         iso_3166_1: "US",
         name: "United States of America",
       },
+      {
+        iso_3166_1: "IRL",
+        name: "Ireland",
+      },
+      {
+        iso_3166_1: "ENG",
+        name: "England",
+      },
+      {
+        iso_3166_1: "CRO",
+        name: "Croatia",
+      },
     ],
     release_date: "2017-12-13",
     revenue: 1332459537,
