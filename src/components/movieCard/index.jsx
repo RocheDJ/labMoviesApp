@@ -1,5 +1,5 @@
 import Avatar from "@mui/material/Avatar";
-import React from "react";
+import React,{useState}  from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -23,14 +23,18 @@ const styles = {
   },
 };
 
+
+
 export default function MovieCard(props) {
   const movie = props.movie;
+  const [isFav, setFav] = useState(null);
 
   const handleAddToFavourite = (e) => {
     e.preventDefault();
+    setFav(true);
     props.selectFavourite(movie.id);
   };
-
+  
   return (
     <Card sx={styles.card}>
       <CardHeader
@@ -79,7 +83,7 @@ export default function MovieCard(props) {
         >
           <FavoriteIcon color="primary" fontSize="large" />
         </IconButton>
-        <Link to={`/movies/${movie.id}`}>
+        <Link to={`/movies/${movie.id}/${isFav}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

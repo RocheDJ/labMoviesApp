@@ -17,11 +17,13 @@ const styles = {
 
 const MoviePage = (props) => {
   const { id } = useParams();
+  const { isFav } = useParams();
   const [movie, setMovie] = useState(null);
   const [images, setImages] = useState([]);
 
   useEffect(() => {
     getMovie(id).then((movie) => {
+      movie.favourite = isFav;
       setMovie(movie);
     });
   }, [id]);
@@ -38,7 +40,8 @@ const MoviePage = (props) => {
     <>
       {movie ? (
         <>
-          <MovieHeader movie={movie} />
+          <MovieHeader movie={movie} isFav={isFav}/>
+          
           <Grid container spacing={5} style={{ padding: "15px" }}>
             <Grid item xs={3}>
               <div sx={styles.imageListRoot}>

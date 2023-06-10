@@ -21,8 +21,9 @@ const styles = {
   },
 };
 
-const MovieDetails = ( props) => {
+const MovieDetails = (props) => {
   const movie = props.movie
+
 
   return (
     <>
