@@ -1,5 +1,5 @@
 import Avatar from "@mui/material/Avatar";
-import React,{useState}  from "react";
+import React,{useContext}  from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -25,14 +26,18 @@ const styles = {
 
 
 
-export default function MovieCard(props) {
-  const movie = props.movie;
-  const [isFav, setFav] = useState(null);
+export default function MovieCard({ movie }) {      // Destructure props
+  const { favourites, addToFavourites } = useContext(MoviesContext);
+
+  if (favourites.find((id) => id === movie.id)) {
+    movie.favourite = true;
+  } else {
+    movie.favourite = false
+  }
 
   const handleAddToFavourite = (e) => {
     e.preventDefault();
-    setFav(true);
-    props.selectFavourite(movie.id);
+    addToFavourites(movie);
   };
   
   return (
@@ -83,7 +88,7 @@ export default function MovieCard(props) {
         >
           <FavoriteIcon color="primary" fontSize="large" />
         </IconButton>
-        <Link to={`/movies/${movie.id}/${isFav}`}>
+        <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

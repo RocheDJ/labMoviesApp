@@ -9,6 +9,8 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/siteHeader';
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage"; // lab 4 exercise
+import MoviesContextProvider from "./contexts/moviesContext";
+
 
 //
 // retain all data in the cache for 1 hour before it becomes invalidated.
@@ -27,6 +29,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
      <SiteHeader />      {/* New Header  */}
+     <MoviesContextProvider>
       <Routes>
         <Route path="/reviews/:id" element={<MovieReviewPage />} />
         <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
@@ -35,6 +38,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      </MoviesContextProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
