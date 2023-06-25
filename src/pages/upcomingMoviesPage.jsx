@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getUpCommingMovies } from "../api/tmdb-api";
 import { useQuery } from "react-query";
-
 import PageTemplate from '../components/templateMovieListPage'
-
 import AddToPlaylistIcon from '../components/cardIcons/addToPlaylist'
-
 import Spinner from "../components/spinner";
 const UpcomingMoviesPage = (props) => {
  
@@ -21,13 +18,7 @@ const UpcomingMoviesPage = (props) => {
   const movies = data ? data.results : [];
 
 
-  useEffect(() => {
-    getUpCommingMovies().then(movies => {
-      setMovies(movies);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  
   return (
     <PageTemplate
       title='Up comming Movies'
