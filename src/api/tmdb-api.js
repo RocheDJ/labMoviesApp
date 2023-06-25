@@ -14,6 +14,7 @@ export const getMovies = () => {
       throw error;
     });
 };
+
 // Lab 3 exercise
 export const getUpCommingMovies = () => {
   return fetch(
@@ -21,8 +22,15 @@ export const getUpCommingMovies = () => {
       import.meta.env.VITE_TMDB_KEY
     }&language=en-US&include_adult=false&page=1`
   )
-    .then((res) => res.json())
-    .then((json) => json.results);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getMovie = (args) => {
