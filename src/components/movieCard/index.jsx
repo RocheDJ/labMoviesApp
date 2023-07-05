@@ -15,9 +15,10 @@ import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
 
+
 const styles = {
-  card: { maxWidth: 345 },
-  media: { height: 500 },
+  card: { maxWidth: 250 , height: 650 },
+  media: { height: 350 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
@@ -34,6 +35,14 @@ export default function MovieCard({ movie, action }) {
 
   return (
     <Card sx={styles.card}>
+       <CardMedia
+        sx={styles.media}
+        image={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+            : img
+        }
+      />
       <CardHeader
         sx={styles.header}
         avatar={
@@ -49,26 +58,18 @@ export default function MovieCard({ movie, action }) {
           </Typography>
         }
       />
-      <CardMedia
-        sx={styles.media}
-        image={
-          movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-            : img
-        }
-      />
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
+            <Typography variant="h9" component="p">
               <CalendarIcon fontSize="small" />
               {movie.release_date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
+            <Typography variant="h9" component="p">
               <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+              {"  Average Rating "} {movie.vote_average}{" "}
             </Typography>
           </Grid>
         </Grid>
