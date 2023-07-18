@@ -21,6 +21,7 @@ const styles = {
 function MovieListPageTemplate({ movies, title, action }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
+  const [tvOrMovie, setTvOrMovie] = useState("movie");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const genreId = Number(genreFilter);
@@ -35,7 +36,8 @@ function MovieListPageTemplate({ movies, title, action }) {
 
   const handleChange = (type, value) => {
     if (type === "title") setTitleFilter(value);
-    else setGenreFilter(value);
+    else if (type === "genre") setGenreFilter(value)
+    else setTvOrMovie(value);
   };
 
   return (
@@ -65,6 +67,7 @@ function MovieListPageTemplate({ movies, title, action }) {
           onUserInput={handleChange}
           titleFilter={titleFilter}
           genreFilter={genreFilter}
+          tvOrMovie={tvOrMovie}
         />
       </Drawer>
     </>

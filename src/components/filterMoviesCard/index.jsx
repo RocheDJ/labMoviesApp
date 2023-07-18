@@ -1,4 +1,4 @@
-import React from "react";  // useState/useEffect redundant 
+import React, { useState }from "react"; // useState/useEffect redundant
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,13 @@ import { getGenres } from "../../api/tmdb-api";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useQuery } from "react-query";
-import Spinner from '../spinner'
+
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormLabel from "@mui/material/FormLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+import Spinner from "../spinner";
 const styles = {
   root: {
     maxWidth: 345,
@@ -27,6 +33,7 @@ const styles = {
 
 export default function FilterMoviesCard(props) {
   const { data, error, isLoading, isError } = useQuery("genres", getGenres);
+  const [tvOrMoviePrompt, setTvOrMoviePrompt] = useState("Filter the movies.");
 
   if (isLoading) {
     return <Spinner />;
@@ -40,19 +47,26 @@ export default function FilterMoviesCard(props) {
     genres.unshift({ id: "0", name: "All" });
   }
 
-  const handleUserImput = (e, type, value) => {
+  const handleUserInput = (e, type, value) => {
     e.preventDefault();
     props.onUserInput(type, value); // NEW
   };
 
   const handleTextChange = (e, props) => {
-    handleUserImput(e, "title", e.target.value);
+    handleUserInput(e, "title", e.target.value);
   };
 
   const handleGenreChange = (e) => {
-    handleUserImput(e, "genre", e.target.value);
+    handleUserInput(e, "genre", e.target.value);
   };
 
+  const handleRadioButtonChange = (e) => {
+    handleUserInput(e, "tv_Movie", e.target.value);
+    if (e.target.value == "movie")
+      setTvOrMoviePrompt("Filter the movies.");
+    else
+      setTvOrMoviePrompt("Filter the TV Programs");
+  };
 
   return (
     <>
@@ -60,7 +74,7 @@ export default function FilterMoviesCard(props) {
         <CardContent>
           <Typography variant="h5" component="h1">
             <FilterAltIcon fontSize="large" />
-            Filter the movies.
+            {tvOrMoviePrompt}
           </Typography>
           <TextField
             sx={styles.formControl}
@@ -72,9 +86,7 @@ export default function FilterMoviesCard(props) {
             onChange={handleTextChange}
           />
           <FormControl sx={styles.formControl}>
-            <InputLabel id="genre-label">
-              Genre
-            </InputLabel>
+            <InputLabel id="genre-label">Genre</InputLabel>
             <Select
               labelId="genre-label"
               id="genre-select"
@@ -89,6 +101,16 @@ export default function FilterMoviesCard(props) {
                 );
               })}
             </Select>
+            <FormLabel id="radio-buttons-group">Movies - TV</FormLabel>
+            <RadioGroup
+              aria-labelledby="radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={props.tvOrMovie}
+              onChange={handleRadioButtonChange}
+            >
+              <FormControlLabel value="movie" control={<Radio />} label="MOVIE"/>
+              <FormControlLabel value="tv" control={<Radio />} label="TV" />
+            </RadioGroup>
           </FormControl>
         </CardContent>
       </Card>
@@ -96,7 +118,7 @@ export default function FilterMoviesCard(props) {
         <CardContent>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
-            Sort the movies.
+            Sort the list.
           </Typography>
         </CardContent>
       </Card>
