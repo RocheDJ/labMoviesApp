@@ -18,14 +18,22 @@ const styles = {
   },
 };
 
-function MovieListPageTemplate({ movies, title, action }) {
+function MovieListPageTemplate({
+  title,
+  movies,
+  tvPrograms,
+  action
+}) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [tvOrMovie, setTvOrMovie] = useState("movie");
+  const [pageTitle, setPageTitle] = useState("Discover Movies and TV");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const genreId = Number(genreFilter);
 
+
+  // movie data
   let displayedMovies = movies
     .filter((m) => {
       return m.title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
@@ -34,20 +42,36 @@ function MovieListPageTemplate({ movies, title, action }) {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
     });
 
+
+  // TV data
+  let displayedTVPrograms = tvPrograms
+    .filter((p) => {
+      return p.title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
+    })
+    .filter((p) => {
+      return genreId > 0 ? p.genre_ids.includes(genreId) : true;
+    });
+
   const handleChange = (type, value) => {
-    if (type === "title") setTitleFilter(value);
-    else if (type === "genre") setGenreFilter(value)
+    if (type === "title")
+     setTitleFilter(value);
+    else if (type === "genre") 
+      setGenreFilter(value);
     else setTvOrMovie(value);
+      if (value == "movie")
+        setPageTitle("Discover Movies");
+      else 
+        setPageTitle("Discover TV");
   };
 
   return (
     <>
       <Grid container sx={styles.root}>
         <Grid item xs={12}>
-          <Header title={title} />
+          <Header title={pageTitle} />
         </Grid>
         <Grid item container spacing={5}>
-          <MovieList action={action} movies={displayedMovies} />
+          <MovieList action={action} movies={displayedMovies} tvPrograms={displayedTVPrograms} tvOrMovie={tvOrMovie} />
         </Grid>
       </Grid>
       <Fab

@@ -16,7 +16,7 @@ const styles = {
 };
 
 const Header = (props ) => {
-  const title = props.title
+  let title = props.title
 
   return (
     <Paper component="div" sx={styles.root}>

@@ -19,7 +19,7 @@ export const getTVPrograms = () => {
   return fetch(
     `https://api.themoviedb.org/3/discover/tv?api_key=${
       import.meta.env.VITE_TMDB_KEY
-    }&language=en-US&include_adult=false&include_video=false&page=1&with_watch_providers=8&watch_region=IE`
+    }&language=en-US&sort_by=popularity.desc&page=1&with_watch_providers=8&watch_region=IE`
   )
     .then((response) => {
       if (!response.ok) {
@@ -114,7 +114,6 @@ export const getMovieReviews = (id) => {
   )
     .then((res) => res.json())
     .then((json) => {
-      // console.log(json.results);
       return json.results;
     });
 };
