@@ -46,7 +46,7 @@ function MovieListPageTemplate({
   // TV data
   let displayedTVPrograms = tvPrograms
     .filter((p) => {
-      return p.title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
+      return p.name.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
     })
     .filter((p) => {
       return genreId > 0 ? p.genre_ids.includes(genreId) : true;

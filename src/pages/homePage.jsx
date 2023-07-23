@@ -1,42 +1,40 @@
 import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies, getTVPrograms } from "../api/tmdb-api";
-import { useQuery } from "react-query";
+import { useQuery,useQueries } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
-const HomePage = (props) => {
-  const { tvData, errorTv, isLoadingTv, isErrorTv } = useQuery(
-    "discoverTV",
-    getMovies
-  );
 
-  const { data, error, isLoading, isError } = useQuery(
-    "discoverMovies",
-    getMovies
-  );
+const HomePage = (props) => {
+  const { data, error, isLoading, isError } = useQuery( "discoverMovies",getMovies);
+  const tvResponse = useQuery( "discoverTV",getTVPrograms);
 
   // retrieve the movie data
   if (isLoading) {
     return <Spinner />;
   }
+
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <h1>`There was an error reading Movie Data`${error.message}</h1>;
   }
 
   const movies = data ? data.results : [];
 
   //retrieve the tv data
-  if (isLoadingTv) {
-    console.log("loading TV");
-    return <Spinner />;
-  }
 
-  if (isErrorTv) {
-    return <h1>{errorTv.message}</h1>;
-  }
+  //const tvDataResponse = { isLoading, error, data } = useQuery( "discoverRecipes",getTVPrograms);// = useQuery( "discoverRecipes",getRecipes);} = useQuery("discoverTV", getMovies);
 
-  const tvPrograms = tvData ? tvData.results : [];
+   if (tvResponse.isLoading) {
+    console.log("Loading TV Data");
+     return <Spinner />;
+   }
+
+   if (tvResponse.isError) {
+     return <h1>`There was an error reading TV Data`${tvDataResponse.error.message}</h1>;
+   }
+
+  const tvPrograms = tvResponse.data ? tvResponse.data.results : [];// tvDataResponse.data ? tvDataResponse.data.results : [];
 
   console.log({ movies });
   console.log({ tvPrograms });
