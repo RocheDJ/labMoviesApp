@@ -29,7 +29,7 @@ const SiteHeader = ({ AppIsTV }) => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  ;
+ 
   
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL);
@@ -52,8 +52,8 @@ const SiteHeader = ({ AppIsTV }) => {
     if (AppIsTV == "tv") {
       menuOptions = [
         { label: "Home", path: "/" },
-        { label: "Favorites", path: "/tvShows/favourites" },
-        { label: "Trending", path: "/tvShows/trending" },
+        { label: "Favorites", path: "/tv/favourites" },
+        { label: "Trending", path: "/tv/trending" },
         { label: "--------", path: "/" },
       ];
       setMyColor("secondary");

@@ -9,8 +9,10 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
 import MovieReviewPage from "./pages/movieReviewPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage'
 import SiteHeader from './components/siteHeader';
-import UpcomingMoviesPage from "./pages/upcomingMoviesPage"; // lab 4 exercise
+import UpcomingMoviesPage from "./pages/upcomingMoviesPage"; 
 import MoviesContextProvider from "./contexts/moviesContext";
+import TrendingTVPage from "./pages/trendingTVPage";
+
 
 // testing
 import SandBox from './components/sandbox';
@@ -51,7 +53,9 @@ const App = () => {
         <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
         <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
         <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+        <Route path="/tv/trending" element={<TrendingTVPage />} />
         <Route path="/movies/:id/:isFav" element={<MoviePage />} />
+        <Route path="/movies/:id" element={<MoviePage />} />
         <Route path="/" element={<HomePage handleTVMovieChange={handleTVMovieChange}/>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
