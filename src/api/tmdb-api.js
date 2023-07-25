@@ -32,8 +32,24 @@ export const getTVPrograms = () => {
     });
 };
 
+export const getTrendingTvPrograms = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/trending/tv/day?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }&language=en-US&sort_by=popularity.desc&page=1&with_watch_providers=8&watch_region=IE`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
-// Lab 3 exercise
+// 
 export const getUpCommingMovies = () => {
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${

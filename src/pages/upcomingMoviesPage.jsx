@@ -7,7 +7,7 @@ import Spinner from "../components/spinner";
 const UpcomingMoviesPage = (props) => {
  
   const { data, error, isLoading, isError } = useQuery("discoverUpCommingMovies", getUpCommingMovies);
-
+ 
   if (isLoading) {
     return <Spinner />;
   }
@@ -16,13 +16,12 @@ const UpcomingMoviesPage = (props) => {
   }
 
   const movies = data ? data.results : [];
-
-
   
   return (
     <PageTemplate
       title='Up comming Movies'
       movies={movies}
+      tvPrograms={tvPrograms}
       action={(movie) => {
         return <AddToPlaylistIcon movie={movie} />
       }}

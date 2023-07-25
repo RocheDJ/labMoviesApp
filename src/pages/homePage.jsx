@@ -9,6 +9,7 @@ import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 const HomePage = (props) => {
   const { data, error, isLoading, isError } = useQuery( "discoverMovies",getMovies);
   const tvResponse = useQuery( "discoverTV",getTVPrograms);
+ 
 
   // retrieve the movie data
   if (isLoading) {
@@ -23,8 +24,6 @@ const HomePage = (props) => {
 
   //retrieve the tv data
 
-  //const tvDataResponse = { isLoading, error, data } = useQuery( "discoverRecipes",getTVPrograms);// = useQuery( "discoverRecipes",getRecipes);} = useQuery("discoverTV", getMovies);
-
    if (tvResponse.isLoading) {
     console.log("Loading TV Data");
      return <Spinner />;
@@ -36,16 +35,19 @@ const HomePage = (props) => {
 
   const tvPrograms = tvResponse.data ? tvResponse.data.results : [];// tvDataResponse.data ? tvDataResponse.data.results : [];
 
-  console.log({ movies });
-  console.log({ tvPrograms });
   // dynamic title
   let sTitle = "Discover Movies and TV";
+
+ const TVMovieChange = (value) => {
+  props.handleTVMovieChange(value);
+ }
 
   return (
     <PageTemplate
       title={sTitle}
       movies={movies}
       tvPrograms={tvPrograms}
+      TVMovieChange={TVMovieChange}
       action={(movie) => {
         return <AddToFavouritesIcon movie={movie} />;
       }}

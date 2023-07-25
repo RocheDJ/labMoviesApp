@@ -22,7 +22,9 @@ function MovieListPageTemplate({
   title,
   movies,
   tvPrograms,
+  TVMovieChange,
   action
+
 }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
@@ -58,8 +60,11 @@ function MovieListPageTemplate({
     else if (type === "genre") 
       setGenreFilter(value);
     else setTvOrMovie(value);
+      TVMovieChange(value);
       if (value == "movie")
+      {
         setPageTitle("Discover Movies");
+      }
       else 
         setPageTitle("Discover TV");
   };

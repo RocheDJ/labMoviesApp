@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes} from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
@@ -12,6 +12,8 @@ import SiteHeader from './components/siteHeader';
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage"; // lab 4 exercise
 import MoviesContextProvider from "./contexts/moviesContext";
 
+// testing
+import SandBox from './components/sandbox';
 
 //
 // retain all data in the cache for 1 hour before it becomes invalidated.
@@ -25,11 +27,24 @@ const queryClient = new QueryClient({
   },
 });
 
+
+
+
 const App = () => {
+  const [AppIsTV, setAppIsTV] = useState("movie");
+  
+  const handleTVMovieChange = (value) => {
+    console.log(`Index page Handle TV Movie change value= ${value}`);  
+    setAppIsTV(value);
+    console.log(`Index page Handle TV Movie change - ${AppIsTV}`);  
+   };
+  
+
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-     <SiteHeader />      {/* New Header  */}
+     <SiteHeader AppIsTV={AppIsTV} />   
+     <SandBox AppIsTV={AppIsTV} />  
      <MoviesContextProvider>
       <Routes>
         <Route path="/reviews/:id" element={<MovieReviewPage />} />
@@ -37,7 +52,7 @@ const App = () => {
         <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
         <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
         <Route path="/movies/:id/:isFav" element={<MoviePage />} />
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage handleTVMovieChange={handleTVMovieChange}/>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       </MoviesContextProvider>
