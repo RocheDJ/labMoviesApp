@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../headerMovieList";
-import FilterCard from "../filterMoviesCard";
+import FilterCard from "../filterTVCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
+import FilterTVCard from "../filterTVCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
@@ -59,14 +60,16 @@ function MovieListPageTemplate({
      setTitleFilter(value);
     else if (type === "genre") 
       setGenreFilter(value);
-    else setTvOrMovie(value);
-      TVMovieChange(value);
-      if (value == "movie")
-      {
-        setPageTitle("Discover Movies");
+    else if (type === "tv_Movie")
+      { 
+        setTvOrMovie(value);
+        TVMovieChange(value);
+        if (value == "movie")
+
+          setPageTitle("Discover Movies");
+        else 
+          setPageTitle("Discover TV");
       }
-      else 
-        setPageTitle("Discover TV");
   };
 
   return (
@@ -92,12 +95,22 @@ function MovieListPageTemplate({
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <FilterCard
-          onUserInput={handleChange}
-          titleFilter={titleFilter}
-          genreFilter={genreFilter}
-          tvOrMovie={tvOrMovie}
-        />
+        {(tvOrMovie=="movie") ? (
+          <FilterCard
+            onUserInput={handleChange}
+            titleFilter={titleFilter}
+            genreFilter={genreFilter}
+            tvOrMovie={tvOrMovie}
+          />
+        ):(
+          <FilterTVCard
+            onUserInput={handleChange}
+            titleFilter={titleFilter}
+            genreFilter={genreFilter}
+            tvOrMovie={tvOrMovie}
+        /> 
+        )}
+
       </Drawer>
     </>
   );
