@@ -3,13 +3,20 @@ import PageTemplate from "../components/templateMovieListPage";
 import { getMovies, getTVPrograms } from "../api/tmdb-api";
 import { useQuery,useQueries } from "react-query";
 import Spinner from "../components/spinner";
+
+// Icons on Cards for Favorites 
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites";
+
+// Icons on Cards for WatchList 
+import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
+import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
 
 const HomePage = (props) => {
   const { data, error, isLoading, isError } = useQuery( "discoverMovies",getMovies);
   const tvResponse = useQuery( "discoverTV",getTVPrograms);
- 
+  const [tvOrMovie, setTvOrMovie] = React.useState("movie");
 
   // retrieve the movie data
   if (isLoading) {
@@ -39,6 +46,13 @@ const HomePage = (props) => {
   let sTitle = "Discover Movies and TV";
 
  const TVMovieChange = (value) => {
+  const sChangeTo = value;
+  if(sChangeTo =='tv'){
+    setTvOrMovie("tv");
+  }else{
+    setTvOrMovie("movie");
+  }
+ // console.log(`Home Page ${value}`);
   props.handleTVMovieChange(value);
  }
 
@@ -48,8 +62,17 @@ const HomePage = (props) => {
       movies={movies}
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
-      action={(movie) => {
-        return <AddToFavouritesIcon movie={movie} />;
+      faveIconAction={(movie) => {
+        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+      }}
+      removeFaveIconAction={(movie) => {
+        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+      }}
+      addToPlaylistIconAction={(movie) => {
+        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+      }}
+      removeFromPlaylistIconAction={(movie) => {
+        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie}/>;
       }}
     />
   );

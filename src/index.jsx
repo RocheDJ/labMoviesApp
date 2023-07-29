@@ -36,14 +36,13 @@ const App = () => {
   const handleTVMovieChange = (value) => {
     console.log(`Index page Handle TV Movie change value= ${value}`);
     setAppIsTV(value);
-    console.log(`Index page Handle TV Movie change - ${AppIsTV}`);
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader AppIsTV={AppIsTV} />
-        <SandBox AppIsTV={AppIsTV} />
+        
         <TvContextProvider>
           <MoviesContextProvider>
             <Routes>
@@ -55,7 +54,6 @@ const App = () => {
               />
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/tv/trending" element={<TrendingTVPage />} />
-              <Route path="/movies/:id/:isFav" element={<MoviePage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/tv/:id" element={<TvPage />} />
               <Route

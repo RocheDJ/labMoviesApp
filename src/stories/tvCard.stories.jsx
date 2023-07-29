@@ -1,9 +1,10 @@
 import React from "react";
-import MovieCard from "../components/movieCard";
-import SampleMovie from "./sampleData";
+import TvCard from "../components/tvCard";
+import SampleTvShow from "./sampleTvData";
 import { MemoryRouter } from "react-router";
-import MoviesContextProvider from "../contexts/moviesContext";
+import TvContextProvider from "../contexts/tvContext";
 import { action } from "@storybook/addon-actions";
+
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites";
 
@@ -11,18 +12,18 @@ import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
 export default {
-  title: "Home Page/MovieCard",
-  component: MovieCard,
+  title: "Home Page/TvCard",
+  component: TvCard,
   decorators: [
     (Story) => <MemoryRouter initialEntries={["/"]}>{Story()}</MemoryRouter>,
-    (Story) => <MoviesContextProvider>{Story()}</MoviesContextProvider>,
+    (Story) => <TvContextProvider>{Story()}</TvContextProvider>,
   ],
 };
 
 export const Basic = () => {
   return (
-    <MovieCard
-      movie={SampleMovie}
+    <TvCard
+      movie={SampleTvShow}
       faveIconAction={(movie) => <AddToFavouritesIcon movie={movie} />}
       removeFaveIconAction={(movie) => <AddToFavouritesIcon movie={movie} />}
       addToPlaylistIconAction={(movie) => <AddToPlaylistIcon movie={movie} />}
@@ -34,9 +35,9 @@ export const Basic = () => {
 Basic.storyName = "Default";
 
 export const Exceptional = () => {
-  const sampleNoPoster = { ...SampleMovie, poster_path: undefined };
+  const sampleNoPoster = { ...SampleTvShow, poster_path: undefined };
   return (
-    <MovieCard
+    <TvCard
       movie={sampleNoPoster}
       faveIconAction={(movie) => <AddToFavouritesIcon movie={movie} />}
       removeFaveIconAction={(movie) => <RemoveFromFavouritesIcon movie={movie} />}

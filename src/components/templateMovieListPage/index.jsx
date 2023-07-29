@@ -24,8 +24,10 @@ function MovieListPageTemplate({
   movies,
   tvPrograms,
   TVMovieChange,
-  action
-
+  faveIconAction,
+  removeFaveIconAction,
+  addToPlaylistIconAction,
+  removeFromPlaylistIconAction,
 }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
@@ -35,7 +37,6 @@ function MovieListPageTemplate({
 
   const genreId = Number(genreFilter);
 
-
   // movie data
   let displayedMovies = movies
     .filter((m) => {
@@ -44,7 +45,6 @@ function MovieListPageTemplate({
     .filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
     });
-
 
   // TV data
   let displayedTVPrograms = tvPrograms
@@ -56,20 +56,14 @@ function MovieListPageTemplate({
     });
 
   const handleChange = (type, value) => {
-    if (type === "title")
-     setTitleFilter(value);
-    else if (type === "genre") 
-      setGenreFilter(value);
-    else if (type === "tv_Movie")
-      { 
-        setTvOrMovie(value);
-        TVMovieChange(value);
-        if (value == "movie")
-
-          setPageTitle("Discover Movies");
-        else 
-          setPageTitle("Discover TV");
-      }
+    if (type === "title") setTitleFilter(value);
+    else if (type === "genre") setGenreFilter(value);
+    else if (type === "tv_Movie") {
+      setTvOrMovie(value);
+      TVMovieChange(value);
+      if (value == "movie") setPageTitle("Discover Movies");
+      else setPageTitle("Discover TV");
+    }
   };
 
   return (
@@ -79,7 +73,15 @@ function MovieListPageTemplate({
           <Header title={pageTitle} />
         </Grid>
         <Grid item container spacing={5}>
-          <MovieList action={action} movies={displayedMovies} tvPrograms={displayedTVPrograms} tvOrMovie={tvOrMovie} />
+          <MovieList
+            faveIconAction={faveIconAction}
+            movies={displayedMovies}
+            tvPrograms={displayedTVPrograms}
+            tvOrMovie={tvOrMovie}
+            removeFaveIconAction={removeFaveIconAction}
+            addToPlaylistIconAction={addToPlaylistIconAction}
+            removeFromPlaylistIconAction={removeFromPlaylistIconAction}
+          />
         </Grid>
       </Grid>
       <Fab
@@ -95,22 +97,21 @@ function MovieListPageTemplate({
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        {(tvOrMovie=="movie") ? (
+        {tvOrMovie == "movie" ? (
           <FilterCard
             onUserInput={handleChange}
             titleFilter={titleFilter}
             genreFilter={genreFilter}
             tvOrMovie={tvOrMovie}
           />
-        ):(
+        ) : (
           <FilterTVCard
             onUserInput={handleChange}
             titleFilter={titleFilter}
             genreFilter={genreFilter}
             tvOrMovie={tvOrMovie}
-        /> 
+          />
         )}
-
       </Drawer>
     </>
   );

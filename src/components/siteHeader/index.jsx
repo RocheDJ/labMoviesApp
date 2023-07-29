@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import Switch from '@mui/material/Switch';
 // header style
 const styles = {
   title: {
@@ -29,7 +29,7 @@ const SiteHeader = ({ AppIsTV }) => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
- 
+  
   
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL);
@@ -39,6 +39,7 @@ const SiteHeader = ({ AppIsTV }) => {
     setAnchorEl(event.currentTarget);
   };
 
+  
 
   function MenuItems() {
     let menuOptions = [
@@ -46,7 +47,6 @@ const SiteHeader = ({ AppIsTV }) => {
       { label: "Favorites", path: "/movies/favourites" },
       { label: "Upcoming", path: "/movies/upcoming" },
       { label: "--------", path: "/" },
-      ,
     ];
     setMyColor("primary");
     if (AppIsTV == "tv") {
@@ -84,6 +84,14 @@ const SiteHeader = ({ AppIsTV }) => {
         <Typography variant="h6" sx={styles.title}>
           All you ever wanted to know about Movies and TV!
         </Typography>
+        
+        <Switch
+            checked={(AppIsTV=="tv")}
+            // onChange={() => setIsTV(!isTV)}
+            name="loading"
+            color="warning"
+          />
+        {AppIsTV}
 
         {isMobile ? (
           <>

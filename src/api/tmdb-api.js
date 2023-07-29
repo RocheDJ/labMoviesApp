@@ -107,6 +107,30 @@ export const getTv = (args) => {
     });
 };
 
+
+
+export const getTvSeasonInfo = (args) => {
+  console.log(args)
+  const [, idPart,seasonPart] = args.queryKey;
+  const { id } = idPart;
+  const { season } = seasonPart;
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/season/${season}?api_key=${
+      import.meta.env.VITE_TMDB_KEY
+    }`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+
 export const getGenres = async () => {
   return fetch(
     "https://api.themoviedb.org/3/genre/movie/list?api_key=" +

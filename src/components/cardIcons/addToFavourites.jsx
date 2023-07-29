@@ -1,19 +1,31 @@
 import React, { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { TvContext } from "../../contexts/tvContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import Tooltip from '@mui/material/Tooltip';
 
-const AddToFavouritesIcon = ({ movie }) => {
+
+const AddToFavouritesIcon = ({ movie ,
+                              tvOrMovie}) => {
+
   const context = useContext(MoviesContext);
+  const contextTV = useContext(TvContext);
 
   const onUserSelect = (e) => {
     e.preventDefault();
-    context.addToFavourites(movie);
+    if (tvOrMovie=="tv"){
+      contextTV.addToFavorites(movie);
+    }else{
+      context.addToFavorites(movie);
+    }
   };
   return (
-    <IconButton aria-label="add to favorites" onClick={onUserSelect}>
-      <FavoriteIcon color="primary" fontSize="large" />
+    <Tooltip title="Add To Favorites">
+    <IconButton aria-label="Add To Favorites" onClick={onUserSelect}>
+      <FavoriteIcon color="primary"  fontSize="large" />
     </IconButton>
+  </Tooltip>
   );
 };
 

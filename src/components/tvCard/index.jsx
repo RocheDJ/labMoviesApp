@@ -14,18 +14,28 @@ import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
 import { TvContext } from "../../contexts/tvContext";
-
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 const styles = {
-  card: { maxWidth: 250 , height: 650 },
+  card: { maxWidth: 250, height: 650 },
   media: { height: 350 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
 };
 
-export default function tvCard({ tvShow, action }) {
+export default function tvCard({
+  tvShow,
+  faveIconAction,
+  removeFaveIconAction,
+  addToPlaylistIconAction,
+  removeFromPlaylistIconAction,
+}) {
   const { favorites, addToFavorites } = useContext(TvContext);
+  const { mustWatch, addTowWatchList } = useContext(TvContext);
+
 
   if (favorites.find((id) => id === tvShow.id)) {
     tvShow.favorite = true;
@@ -33,25 +43,26 @@ export default function tvCard({ tvShow, action }) {
     tvShow.favorite = false;
   }
 
+  if (mustWatch.find((id) => id === tvShow.id)) {
+    tvShow.mustWatch = true;
+  } else {
+    tvShow.mustWatch = false;
+  }
+
   return (
     <Card sx={styles.card}>
-       <CardMedia
-        sx={styles.media}
-        image={
+      <Link to={`/tv/${tvShow.id}`}>
+        <CardMedia
+          sx={styles.media}
+          image={
             tvShow.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`
-            : img
-        }
-      />
+              ? `https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`
+              : img
+          }
+        />
+      </Link>
+
       <CardHeader
-        sx={styles.header}
-        avatar={
-            tvShow.favorite ? (
-            <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
         title={
           <Typography variant="h5" component="p">
             {tvShow.name}{" "}
@@ -59,28 +70,38 @@ export default function tvCard({ tvShow, action }) {
         }
       />
       <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h9" component="p">
-              <CalendarIcon fontSize="small" />
-              {tvShow.first_air_date}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h9" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  Popularity "} {tvShow.popularity}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
+        <Typography variant="h9" component="p">
+          <CalendarIcon fontSize="small" />
+          {"  First Aired "}{tvShow.first_air_date}{" "}
+        </Typography>
       </CardContent>
+      <CardContent>
+        <Typography variant="h9" component="p">
+          <CalendarIcon fontSize="small" />
+          {"  Country "}{tvShow.origin_country}{" "}
+        </Typography>
+      </CardContent>
+      <CardContent>
+        <Typography variant="h9" component="p">
+          <StarRateIcon fontSize="small" />
+          {"  Average Rating "} {tvShow.vote_average}{" "}
+        </Typography>
+      </CardContent>
+      
       <CardActions disableSpacing>
-        {action(tvShow)}
-        <Link to={`/tv/${tvShow.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
+        {tvShow.favorite == true
+          ? removeFaveIconAction(tvShow)
+          : faveIconAction(tvShow)}
+        <Tooltip title="More info">
+          <Link to={`/tv/${tvShow.id}`}>
+            <IconButton aria-label="More Info">
+              <InfoIcon color="secondary" fontSize="large" />
+            </IconButton>
+          </Link>
+        </Tooltip>
+        {tvShow.mustWatch == true
+          ? removeFromPlaylistIconAction(tvShow)
+          : addToPlaylistIconAction(tvShow)}
       </CardActions>
     </Card>
   );

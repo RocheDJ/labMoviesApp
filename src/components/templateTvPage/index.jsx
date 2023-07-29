@@ -1,11 +1,13 @@
-import React from "react";  // useState/useEffect redundant 
-import MovieHeader from "../headerMovie";
+import React from "react"; // useState/useEffect redundant
+import TvHeader from "../headerTv";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { getTvImages } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
-import Spinner from '../spinner'
+import Spinner from "../spinner";
+
 
 const styles = {
   gridListRoot: {
@@ -13,14 +15,18 @@ const styles = {
     flexWrap: "wrap",
     justifyContent: "space-around",
   },
+  gridListTitle: {
+    width: 450,
+    height: "100vh",
+  },
   gridList: {
     width: 450,
-    height: '100vh',
+    height: "100vh",
   },
 };
 
 const TemplateTvPage = ({ tvShow, children }) => {
-  const { data , error, isLoading, isError } = useQuery(
+  const { data, error, isLoading, isError } = useQuery(
     ["imagesTv", { id: tvShow.id }],
     getTvImages
   );
@@ -32,14 +38,13 @@ const TemplateTvPage = ({ tvShow, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = data.posters 
-  
+  const images = data.posters;
+
   return (
     <>
-      <MovieHeader movie={tvShow} />
-
+      <TvHeader tvShow={tvShow} />
       <Grid container spacing={5} style={{ padding: "15px" }}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>
               {images.map((image) => (
@@ -52,6 +57,7 @@ const TemplateTvPage = ({ tvShow, children }) => {
                     src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
                     alt={image.poster_path}
                   />
+                  
                 </ImageListItem>
               ))}
             </ImageList>
