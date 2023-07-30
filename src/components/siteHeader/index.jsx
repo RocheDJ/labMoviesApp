@@ -46,7 +46,7 @@ const SiteHeader = ({ AppIsTV }) => {
       { label: "Home", path: "/" },
       { label: "Favorites", path: "/movies/favourites" },
       { label: "Upcoming", path: "/movies/upcoming" },
-      { label: "--------", path: "/" },
+      { label: "WatchList", path: "/" },
     ];
     setMyColor("primary");
     if (AppIsTV == "tv") {
@@ -54,7 +54,7 @@ const SiteHeader = ({ AppIsTV }) => {
         { label: "Home", path: "/" },
         { label: "Favorites", path: "/tv/favourites" },
         { label: "Trending", path: "/tv/trending" },
-        { label: "--------", path: "/" },
+        { label: "WatchList", path: "/watchlist" },
       ];
       setMyColor("secondary");
     }

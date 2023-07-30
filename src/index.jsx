@@ -46,20 +46,17 @@ const App = () => {
         <TvContextProvider>
           <MoviesContextProvider>
             <Routes>
+              <Route path="/" element={<HomePage handleTVMovieChange={handleTVMovieChange} />}/>
+              <Route path="/movies/favourites" element={<FavouriteMoviesPage />}/>
+              
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-              <Route
-                path="/movies/favourites"
-                element={<FavouriteMoviesPage />}
-              />
+              
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/tv/trending" element={<TrendingTVPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/tv/:id" element={<TvPage />} />
-              <Route
-                path="/"
-                element={<HomePage handleTVMovieChange={handleTVMovieChange} />}
-              />
+              
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </MoviesContextProvider>

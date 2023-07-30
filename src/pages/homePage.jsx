@@ -1,21 +1,23 @@
 import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies, getTVPrograms } from "../api/tmdb-api";
-import { useQuery,useQueries } from "react-query";
+import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 
-// Icons on Cards for Favorites 
+// Icons on Cards for Favorites
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites";
 
-// Icons on Cards for WatchList 
+// Icons on Cards for WatchList
 import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
-
 const HomePage = (props) => {
-  const { data, error, isLoading, isError } = useQuery( "discoverMovies",getMovies);
-  const tvResponse = useQuery( "discoverTV",getTVPrograms);
+  const { data, error, isLoading, isError } = useQuery(
+    "discoverMovies",
+    getMovies
+  );
+  const tvResponse = useQuery("discoverTV", getTVPrograms);
   const [tvOrMovie, setTvOrMovie] = React.useState("movie");
 
   // retrieve the movie data
@@ -31,30 +33,34 @@ const HomePage = (props) => {
 
   //retrieve the tv data
 
-   if (tvResponse.isLoading) {
+  if (tvResponse.isLoading) {
     console.log("Loading TV Data");
-     return <Spinner />;
-   }
+    return <Spinner />;
+  }
 
-   if (tvResponse.isError) {
-     return <h1>`There was an error reading TV Data`${tvDataResponse.error.message}</h1>;
-   }
+  if (tvResponse.isError) {
+    return (
+      <h1>
+        `There was an error reading TV Data`${tvDataResponse.error.message}
+      </h1>
+    );
+  }
 
-  const tvPrograms = tvResponse.data ? tvResponse.data.results : [];// tvDataResponse.data ? tvDataResponse.data.results : [];
+  const tvPrograms = tvResponse.data ? tvResponse.data.results : []; // tvDataResponse.data ? tvDataResponse.data.results : [];
 
   // dynamic title
   let sTitle = "Discover Movies and TV";
 
- const TVMovieChange = (value) => {
-  const sChangeTo = value;
-  if(sChangeTo =='tv'){
-    setTvOrMovie("tv");
-  }else{
-    setTvOrMovie("movie");
-  }
- // console.log(`Home Page ${value}`);
-  props.handleTVMovieChange(value);
- }
+  const TVMovieChange = (value) => {
+    const sChangeTo = value;
+    if (sChangeTo == "tv") {
+      setTvOrMovie("tv");
+    } else {
+      setTvOrMovie("movie");
+    }
+    // console.log(`Home Page ${value}`);
+    props.handleTVMovieChange(value);
+  };
 
   return (
     <PageTemplate
@@ -63,16 +69,16 @@ const HomePage = (props) => {
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
       faveIconAction={(movie) => {
-        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}
       removeFaveIconAction={(movie) => {
-        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}
       addToPlaylistIconAction={(movie) => {
-        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}
       removeFromPlaylistIconAction={(movie) => {
-        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie}/>;
+        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}
     />
   );
