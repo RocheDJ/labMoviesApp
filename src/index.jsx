@@ -6,7 +6,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import TvPage from "./pages/TvDetailsPage";
-import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
+import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
+import WatchListMoviesPage from "./pages/watchlistMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import SiteHeader from "./components/siteHeader";
@@ -47,13 +48,16 @@ const App = () => {
           <MoviesContextProvider>
             <Routes>
               <Route path="/" element={<HomePage handleTVMovieChange={handleTVMovieChange} />}/>
-              <Route path="/movies/favourites" element={<FavouriteMoviesPage />}/>
-              
+              <Route path="/favorites" element={<FavouriteMoviesPage handleTVMovieChange={handleTVMovieChange}/>}/>
+              <Route path="/watchlist" element={<WatchListMoviesPage handleTVMovieChange={handleTVMovieChange}/>}/>
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage handleTVMovieChange={handleTVMovieChange}/>} />
+              <Route path="/tv/trending" element={<TrendingTVPage />} />
+
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
               
-              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-              <Route path="/tv/trending" element={<TrendingTVPage />} />
+              
+             
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/tv/:id" element={<TvPage />} />
               

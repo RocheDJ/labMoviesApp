@@ -13,12 +13,17 @@ import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
 const HomePage = (props) => {
+  const [tvOrMovie, setTvOrMovie] = React.useState("movie");
+  const [tmdbPage, setTmdbPage] = React.useState(1);
   const { data, error, isLoading, isError } = useQuery(
-    "discoverMovies",
+    ["discoverMovies",{ pageID: tmdbPage }],
     getMovies
   );
+
+  
+ 
   const tvResponse = useQuery("discoverTV", getTVPrograms);
-  const [tvOrMovie, setTvOrMovie] = React.useState("movie");
+
 
   // retrieve the movie data
   if (isLoading) {
@@ -62,12 +67,31 @@ const HomePage = (props) => {
     props.handleTVMovieChange(value);
   };
 
+
+ const handleDataPageIndexChange = (value)=>{
+    let retVal = tmdbPage;
+    if (value == +1){
+      retVal = retVal +1;
+    } 
+    if (value ==-1){
+      retVal = retVal -1;
+    }
+    if (retVal >=1){
+      setTmdbPage(retVal);
+    }
+  };
+
+
+
+
   return (
     <PageTemplate
       title={sTitle}
       movies={movies}
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
+      handleDataPageIndexChange={handleDataPageIndexChange}
+      tmdbPage={tmdbPage}
       faveIconAction={(movie) => {
         return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}

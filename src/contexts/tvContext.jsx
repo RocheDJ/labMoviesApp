@@ -39,7 +39,7 @@ const TvContextProvider = (props) => {
   return (
     <TvContext.Provider
       value={{
-        favorites,
+        favorites: favorites,
         addToFavorites: addToFavorites,
         removeFromFavorites: removeFromFavorites,
         addReview,

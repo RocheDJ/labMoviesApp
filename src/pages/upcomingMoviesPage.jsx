@@ -2,15 +2,24 @@ import React, { useEffect } from "react";
 import { getUpCommingMovies,getTrendingTvPrograms } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import PageTemplate from "../components/templateMovieListPage";
-import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
+
 import Spinner from "../components/spinner";
+// Icons on Cards for Favorites
+import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites";
+
+// Icons on Cards for WatchList
+import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
+import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
+
 const UpcomingMoviesPage = (props) => {
   const { data, error, isLoading, isError } = useQuery(
     "discoverUpCommingMovies",
     getUpCommingMovies
   );
-
   const tvResponse = useQuery("discoverTrendingTV", getTrendingTvPrograms);
+  const [ tvOrMovie, setTvOrMovie ] = React.useState("movie");
+  
 
   if (isLoading) {
     return <Spinner />;
@@ -24,7 +33,6 @@ const UpcomingMoviesPage = (props) => {
   //retrieve the tv data
 
   if (tvResponse.isLoading) {
-    console.log("Loading TV Data");
     return <Spinner />;
   }
 
@@ -42,14 +50,24 @@ const UpcomingMoviesPage = (props) => {
     props.handleTVMovieChange(value);
   };
 
+ 
   return (
     <PageTemplate
-      title="Up comming Movies and Trending TV"
+      title="Upcoming"
       movies={movies}
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
-      action={(movie) => {
-        return <AddToPlaylistIcon movie={movie} />;
+      faveIconAction={(movie) => {
+        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+      }}
+      removeFaveIconAction={(movie) => {
+        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+      }}
+      addToPlaylistIconAction={(movie) => {
+        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
+      }}
+      removeFromPlaylistIconAction={(movie) => {
+        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}
     />
   );

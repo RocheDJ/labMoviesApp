@@ -5,6 +5,7 @@ import { TvContext } from "../contexts/tvContext";
 import { useQueries } from "react-query";
 import { getMovie,getTv } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
+
 // Icons on Cards for Favorites
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites";
@@ -13,14 +14,14 @@ import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourit
 import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
-const FavouriteMoviesPage = (props) => {
-  const { favorites: movieIds } = useContext(MoviesContext);
-  const { favorites: tvIds } = useContext(TvContext);
+const WatchListMoviesPage = (props) => {
+  const { mustWatch: movieIds } = useContext(MoviesContext);
+  const { mustWatch: tvIds } = useContext(TvContext);
   const [ tvOrMovie, setTvOrMovie ] = React.useState("movie");
  
 
   // Create an array of queries and run them in parallel.
-  const favouriteMovieQueries = useQueries(
+  const mustWatchMovieQueries = useQueries(
     movieIds.map((movieId) => {
       return {
         queryKey: ["movie", { id: movieId }],
@@ -30,7 +31,7 @@ const FavouriteMoviesPage = (props) => {
   );
 
   
-  const favouriteTvQueries = useQueries(
+  const mustWatchTvQueries = useQueries(
     tvIds.map((tvId) => {
       return {
         queryKey: ["tv", { id: tvId }],
@@ -40,22 +41,22 @@ const FavouriteMoviesPage = (props) => {
   );
   
   // Check if any of the parallel queries is still loading.
-  const isLoading = favouriteMovieQueries.find((m) => m.isLoading === true);
+  const isLoading = mustWatchMovieQueries.find((m) => m.isLoading === true);
 
   if (isLoading) {
     return <Spinner />;
   }
-  const movies = favouriteMovieQueries.map((q) => q.data);
+  const movies = mustWatchMovieQueries.map((q) => q.data);
 
 
 
-  const isLoadingTv = favouriteTvQueries.find((t) => t.isLoading === true);
+  const isLoadingTv = mustWatchTvQueries.find((t) => t.isLoading === true);
 
   if (isLoadingTv) {
      return <Spinner />;
    }
 
-  const tvPrograms = favouriteTvQueries.map((p) => p.data);
+  const tvPrograms = mustWatchTvQueries.map((p) => p.data);
 
   const TVMovieChange = (value) => {
     const sChangeTo = value;
@@ -70,7 +71,7 @@ const FavouriteMoviesPage = (props) => {
 
   return (
     <PageTemplate
-      title="Favorites"
+      title="Must Watch"
       movies={movies}
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
@@ -89,4 +90,4 @@ const FavouriteMoviesPage = (props) => {
     />
   );
 };
-export default FavouriteMoviesPage;
+export default WatchListMoviesPage;

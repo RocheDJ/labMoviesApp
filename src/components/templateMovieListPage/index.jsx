@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import Header from "../headerMovieList";
+import HeaderMovieList from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import FilterTVCard from "../filterTVCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../movieList";
+import { ThemeContext } from "@emotion/react";
 
 const styles = {
   root: {
@@ -24,6 +25,8 @@ function MovieListPageTemplate({
   movies,
   tvPrograms,
   TVMovieChange,
+  handleDataPageIndexChange,
+  tmdbPage,
   faveIconAction,
   removeFaveIconAction,
   addToPlaylistIconAction,
@@ -32,8 +35,9 @@ function MovieListPageTemplate({
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [tvOrMovie, setTvOrMovie] = useState("movie");
-  const [pageTitle, setPageTitle] = useState("Discover Movies and TV");
+  const [pageTitle, setPageTitle] = useState(title);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
 
   const genreId = Number(genreFilter);
 
@@ -66,11 +70,15 @@ function MovieListPageTemplate({
     }
   };
 
+ 
   return (
     <>
       <Grid container sx={styles.root}>
         <Grid item xs={12}>
-          <Header title={pageTitle} />
+          <HeaderMovieList 
+            title={pageTitle} 
+            pageChange={handleDataPageIndexChange} 
+            pageNumber={tmdbPage}/>
         </Grid>
         <Grid item container spacing={5}>
           <MovieList

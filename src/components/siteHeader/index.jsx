@@ -44,17 +44,17 @@ const SiteHeader = ({ AppIsTV }) => {
   function MenuItems() {
     let menuOptions = [
       { label: "Home", path: "/" },
-      { label: "Favorites", path: "/movies/favourites" },
+      { label: "Favorites", path: "/favorites" },
+      { label: "WatchList", path: "/watchlist" },
       { label: "Upcoming", path: "/movies/upcoming" },
-      { label: "WatchList", path: "/" },
     ];
     setMyColor("primary");
     if (AppIsTV == "tv") {
       menuOptions = [
         { label: "Home", path: "/" },
-        { label: "Favorites", path: "/tv/favourites" },
-        { label: "Trending", path: "/tv/trending" },
+        { label: "Favorites", path: "/favorites" },
         { label: "WatchList", path: "/watchlist" },
+        { label: "Trending", path: "/tv/trending" },  
       ];
       setMyColor("secondary");
     }
