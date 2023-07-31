@@ -13,10 +13,13 @@ import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
 const UpcomingMoviesPage = (props) => {
+  const [tmdbPage, setTmdbPage] = React.useState(1);
+
   const { data, error, isLoading, isError } = useQuery(
-    "discoverUpCommingMovies",
+    ["discoverUpCommingMovies",{ pageID: tmdbPage }],
     getUpCommingMovies
   );
+  
   const tvResponse = useQuery("discoverTrendingTV", getTrendingTvPrograms);
   const [ tvOrMovie, setTvOrMovie ] = React.useState("movie");
   
@@ -47,8 +50,28 @@ const UpcomingMoviesPage = (props) => {
   const tvPrograms = tvResponse.data ? tvResponse.data.results : []; // tvDataResponse.data ? tvDataResponse.data.results : [];
 
   const TVMovieChange = (value) => {
+    const sChangeTo = value;
+    if (sChangeTo == "tv") {
+      setTvOrMovie("tv");
+    } else {
+      setTvOrMovie("movie");
+    }
     props.handleTVMovieChange(value);
   };
+
+  //handle the change of  page
+ const handleDataPageIndexChange = (value)=>{
+  let retVal = tmdbPage;
+  if (value == +1){
+    retVal = retVal +1;
+  } 
+  if (value ==-1){
+    retVal = retVal -1;
+  }
+  if (retVal >=1){
+    setTmdbPage(retVal);
+  }
+};
 
  
   return (
@@ -57,6 +80,8 @@ const UpcomingMoviesPage = (props) => {
       movies={movies}
       tvPrograms={tvPrograms}
       TVMovieChange={TVMovieChange}
+      handleDataPageIndexChange={handleDataPageIndexChange}
+      tmdbPage={tmdbPage}
       faveIconAction={(movie) => {
         return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
       }}

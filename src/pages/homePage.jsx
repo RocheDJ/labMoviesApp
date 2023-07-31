@@ -20,8 +20,6 @@ const HomePage = (props) => {
     getMovies
   );
 
-  
- 
   const tvResponse = useQuery("discoverTV", getTVPrograms);
 
 
@@ -67,7 +65,7 @@ const HomePage = (props) => {
     props.handleTVMovieChange(value);
   };
 
-
+//handle the change of  page
  const handleDataPageIndexChange = (value)=>{
     let retVal = tmdbPage;
     if (value == +1){
@@ -80,9 +78,6 @@ const HomePage = (props) => {
       setTmdbPage(retVal);
     }
   };
-
-
-
 
   return (
     <PageTemplate
