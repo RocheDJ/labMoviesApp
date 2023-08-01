@@ -13,8 +13,9 @@ import Select from "@mui/material/Select";
 import { useQuery } from "react-query";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
+import FilterIcon from "@mui/icons-material/Filter";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import TvIcon from "@mui/icons-material/Tv";
 
 import Spinner from "../spinner";
 const styles = {
@@ -32,8 +33,18 @@ const styles = {
 
 export default function FilterTVCard(props) {
   const { data, error, isLoading, isError } = useQuery("genresTV", getTvGenres);
-  
 
+  const sortBy = {
+    fields: [
+      { id: "0", name: "Title Ascending" },
+      { id: "1", name: "Title Descending" },
+      { id: "2", name: "Popularity Ascending" },
+      { id: "3", name: "Popularity Descending" },
+      { id: "4", name: "First Air Date Ascending" },
+      { id: "5", name: "First Air Date Descending" },
+    ],
+  };
+  const sortByFields = sortBy.fields;
   if (isLoading) {
     return <Spinner />;
   }
@@ -43,7 +54,7 @@ export default function FilterTVCard(props) {
   }
 
   const genres = data.genres;
-  
+
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
@@ -65,40 +76,19 @@ export default function FilterTVCard(props) {
     handleUserInput(e, "tv_Movie", e.target.value);
   };
 
+  const handleSortByChange = (e) => {
+    handleUserInput(e, "SortBy", e.target.value);
+  };
+
   return (
     <>
       <Card sx={styles.root} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h1">
-            <FilterAltIcon fontSize="large" />
-             Filter the TV.
+            <TvIcon fontSize="large" />
+            Select TV or Movie.
           </Typography>
-          <TextField
-            sx={styles.formControl}
-            id="filled-search"
-            label="Search field"
-            type="search"
-            value={props.titleFilter}
-            variant="filled"
-            onChange={handleTextChange}
-          />
           <FormControl sx={styles.formControl}>
-            <InputLabel id="genre-label">Genre</InputLabel>
-            <Select
-              labelId="genre-label"
-              id="genre-select"
-              value={props.genreFilter}
-              onChange={handleGenreChange}
-            >
-              {genres.map((genre) => {
-                return (
-                  <MenuItem key={genre.id} value={genre.id}>
-                    {genre.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormLabel id="radio-buttons-group">Movies - TV</FormLabel>
             <RadioGroup
               aria-labelledby="radio-buttons-group"
               name="controlled-radio-buttons-group"
@@ -115,12 +105,70 @@ export default function FilterTVCard(props) {
           </FormControl>
         </CardContent>
       </Card>
+
       <Card sx={styles.root} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h1">
-            <SortIcon fontSize="large" />
-            Sort the list.
+            <FilterAltIcon fontSize="large" />
+            Search By title.
           </Typography>
+          <TextField
+            sx={styles.formControl}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            value={props.titleFilter}
+            variant="filled"
+            onChange={handleTextChange}
+          />
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+          <Typography variant="h5" component="h1">
+            <FilterIcon fontSize="large" />
+            Select Genre
+          </Typography>
+          <FormControl sx={styles.formControl}>
+            <Select
+              labelId="genre-label"
+              id="genre-select"
+              value={props.genreFilter}
+              onChange={handleGenreChange}
+            >
+              {genres.map((genre) => {
+                return (
+                  <MenuItem key={genre.id} value={genre.id}>
+                    {genre.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+          <FormControl sx={styles.formControl}>
+            <Typography variant="h5" component="h1">
+              <SortIcon fontSize="large" />
+              Sort the list.
+            </Typography>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              value={props.sortByField}
+              onChange={handleSortByChange}
+            >
+              {sortByFields.map((sortByField) => {
+                return (
+                  <MenuItem key={sortByField.id} value={sortByField.id}>
+                    {sortByField.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </CardContent>
       </Card>
     </>

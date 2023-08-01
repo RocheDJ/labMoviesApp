@@ -86,6 +86,10 @@ function MovieListPageTemplate({
           return a.popularity > b.popularity ? 1 : -1;
         case "3":
           return a.popularity > b.popularity ? -1 : 1;
+        case "4":
+          return a.first_air_date > b.first_air_date ? 1 : -1;
+        case "5":
+          return a.first_air_date > b.first_air_date ? -1 : 1;
         default:
           return a.name > b.name ? 1 : -1;
       }

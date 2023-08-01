@@ -2,7 +2,6 @@ import React, { useState } from "react"; // useState/useEffect redundant
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -11,11 +10,12 @@ import { getGenres } from "../../api/tmdb-api";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useQuery } from "react-query";
-
+import MovieIcon from "@mui/icons-material/Movie";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FilterIcon from "@mui/icons-material/Filter";
 
 import Spinner from "../spinner";
 const styles = {
@@ -89,10 +89,32 @@ export default function FilterMoviesCard(props) {
       <Card sx={styles.root} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h1">
-            <FilterAltIcon fontSize="large" />
-            {tvOrMoviePrompt}
+            <MovieIcon fontSize="large" />
+            Select TV or Movie.
           </Typography>
-          <InputLabel id="genre-label">Search by Name</InputLabel>
+          <FormControl sx={styles.formControl}>
+            <RadioGroup
+              aria-labelledby="radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={props.tvOrMovie}
+              onChange={handleRadioButtonChange}
+            >
+              <FormControlLabel
+                value="movie"
+                control={<Radio />}
+                label="MOVIE"
+              />
+              <FormControlLabel value="tv" control={<Radio />} label="TV" />
+            </RadioGroup>
+          </FormControl>
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+          <Typography variant="h5" component="h1">
+            <FilterAltIcon fontSize="large" />
+            Search By name.
+          </Typography>
           <TextField
             sx={styles.formControl}
             id="filled-search"
@@ -102,7 +124,14 @@ export default function FilterMoviesCard(props) {
             variant="filled"
             onChange={handleTextChange}
           />
-          <InputLabel id="genre-label">Genre</InputLabel>
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+          <Typography variant="h5" component="h1">
+            <FilterIcon fontSize="large" />
+            Select Genre
+          </Typography>
           <FormControl sx={styles.formControl}>
             <Select
               labelId="genre-label"
@@ -118,28 +147,19 @@ export default function FilterMoviesCard(props) {
                 );
               })}
             </Select>
-            <FormLabel id="radio-buttons-group">Movies - TV</FormLabel>
-            <RadioGroup
-              aria-labelledby="radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              value={props.tvOrMovie}
-              onChange={handleRadioButtonChange}
-            >
-              <FormControlLabel
-                value="movie"
-                control={<Radio />}
-                label="MOVIE"
-              />
-              <FormControlLabel value="tv" control={<Radio />} label="TV" />
-            </RadioGroup>
-            <Typography variant="h5" component="h1">
+          </FormControl>
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+        <FormControl sx={styles.formControl}>
+        <Typography variant="h5" component="h1">
               <SortIcon fontSize="large" />
               Sort the list.
             </Typography>
             <Select
               labelId="sort-label"
               id="sort-select"
-              // value={props.genreFilter}
               value={props.sortByField}
               onChange={handleSortByChange}
             >
@@ -151,11 +171,10 @@ export default function FilterMoviesCard(props) {
                 );
               })}
             </Select>
-          </FormControl>
+
+
+        </FormControl>
         </CardContent>
-      </Card>
-      <Card sx={styles.root} variant="outlined">
-        <CardContent></CardContent>
       </Card>
     </>
   );
