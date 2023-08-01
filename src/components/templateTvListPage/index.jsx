@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../headerMovieList";
+import HeaderList from "../headerList";
 import FilterCard from "../filterTVCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
@@ -61,7 +61,7 @@ function TvListPageTemplate({
     <>
       <Grid container sx={styles.root}>
         <Grid item xs={12}>
-          <Header title={pageTitle} />
+          <HeaderList title={pageTitle} />
         </Grid>
         <Grid item container spacing={5}>
           <TvList action={action} tvPrograms={displayedTVPrograms} />

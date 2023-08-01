@@ -15,7 +15,7 @@ const styles = {
   },
 };
 
-const HeaderMovieList = ({ 
+const HeaderList = ({ 
   title,
   pageChange ,
   pageNumber}) => {
@@ -39,4 +39,4 @@ const HeaderMovieList = ({
   );
 };
 
-export default HeaderMovieList;
+export default HeaderList;

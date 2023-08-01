@@ -1,4 +1,4 @@
-import React, { useState }from "react"; // useState/useEffect redundant
+import React, { useState } from "react"; // useState/useEffect redundant
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -35,6 +35,18 @@ export default function FilterMoviesCard(props) {
   const { data, error, isLoading, isError } = useQuery("genres", getGenres);
   const [tvOrMoviePrompt, setTvOrMoviePrompt] = useState("Filter the movies.");
 
+  const sortBy = {
+    fields: [
+      { id: "0", name: "Title Ascending" },
+      { id: "1", name: "Title Descending" },
+      { id: "2", name: "Popularity Ascending" },
+      { id: "3", name: "Popularity Descending" },
+      { id: "4", name: "Release Date Ascending" },
+      { id: "5", name: "Release Date Descending" },
+    ],
+  };
+  const sortByFields = sortBy.fields;
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -42,14 +54,16 @@ export default function FilterMoviesCard(props) {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+
   const genres = data.genres;
+
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
 
   const handleUserInput = (e, type, value) => {
     e.preventDefault();
-    props.onUserInput(type, value); 
+    props.onUserInput(type, value);
   };
 
   const handleTextChange = (e, props) => {
@@ -60,12 +74,14 @@ export default function FilterMoviesCard(props) {
     handleUserInput(e, "genre", e.target.value);
   };
 
+  const handleSortByChange = (e) => {
+    handleUserInput(e, "SortBy", e.target.value);
+  };
+
   const handleRadioButtonChange = (e) => {
     handleUserInput(e, "tv_Movie", e.target.value);
-    if (e.target.value == "movie")
-      setTvOrMoviePrompt("Filter the movies.");
-    else
-      setTvOrMoviePrompt("Filter the TV Programs");
+    if (e.target.value == "movie") setTvOrMoviePrompt("Filter the movies.");
+    else setTvOrMoviePrompt("Filter the TV Programs");
   };
 
   return (
@@ -76,6 +92,7 @@ export default function FilterMoviesCard(props) {
             <FilterAltIcon fontSize="large" />
             {tvOrMoviePrompt}
           </Typography>
+          <InputLabel id="genre-label">Search by Name</InputLabel>
           <TextField
             sx={styles.formControl}
             id="filled-search"
@@ -85,8 +102,8 @@ export default function FilterMoviesCard(props) {
             variant="filled"
             onChange={handleTextChange}
           />
+          <InputLabel id="genre-label">Genre</InputLabel>
           <FormControl sx={styles.formControl}>
-            <InputLabel id="genre-label">Genre</InputLabel>
             <Select
               labelId="genre-label"
               id="genre-select"
@@ -108,19 +125,37 @@ export default function FilterMoviesCard(props) {
               value={props.tvOrMovie}
               onChange={handleRadioButtonChange}
             >
-              <FormControlLabel value="movie" control={<Radio />} label="MOVIE"/>
+              <FormControlLabel
+                value="movie"
+                control={<Radio />}
+                label="MOVIE"
+              />
               <FormControlLabel value="tv" control={<Radio />} label="TV" />
             </RadioGroup>
+            <Typography variant="h5" component="h1">
+              <SortIcon fontSize="large" />
+              Sort the list.
+            </Typography>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              // value={props.genreFilter}
+              value={props.sortByField}
+              onChange={handleSortByChange}
+            >
+              {sortByFields.map((sortByField) => {
+                return (
+                  <MenuItem key={sortByField.id} value={sortByField.id}>
+                    {sortByField.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </FormControl>
         </CardContent>
       </Card>
       <Card sx={styles.root} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h1">
-            <SortIcon fontSize="large" />
-            Sort the list.
-          </Typography>
-        </CardContent>
+        <CardContent></CardContent>
       </Card>
     </>
   );

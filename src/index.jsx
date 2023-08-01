@@ -43,24 +43,46 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader AppIsTV={AppIsTV} />
-        
+
         <TvContextProvider>
           <MoviesContextProvider>
             <Routes>
-              <Route path="/" element={<HomePage handleTVMovieChange={handleTVMovieChange} />}/>
-              <Route path="/favorites" element={<FavouriteMoviesPage handleTVMovieChange={handleTVMovieChange}/>}/>
-              <Route path="/watchlist" element={<WatchListMoviesPage handleTVMovieChange={handleTVMovieChange}/>}/>
-              <Route path="/movies/upcoming" element={<UpcomingMoviesPage handleTVMovieChange={handleTVMovieChange}/>} />
+              <Route
+                path="/"
+                element={<HomePage handleTVMovieChange={handleTVMovieChange} />}
+              />
+              <Route
+                path="/favorites"
+                element={
+                  <FavouriteMoviesPage
+                    handleTVMovieChange={handleTVMovieChange}
+                  />
+                }
+              />
+              <Route
+                path="/watchlist"
+                element={
+                  <WatchListMoviesPage
+                    handleTVMovieChange={handleTVMovieChange}
+                  />
+                }
+              />
+              <Route
+                path="/movies/upcoming"
+                element={
+                  <UpcomingMoviesPage
+                    handleTVMovieChange={handleTVMovieChange}
+                  />
+                }
+              />
               <Route path="/tv/trending" element={<TrendingTVPage />} />
 
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-              
-              
-             
+
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/tv/:id" element={<TvPage />} />
-              
+
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </MoviesContextProvider>

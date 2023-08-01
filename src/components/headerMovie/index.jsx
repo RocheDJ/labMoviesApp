@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import Avatar from "@mui/material/Avatar";
-import CardHeader from "@mui/material/CardHeader";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { MoviesContext } from "../../contexts/moviesContext";
 
@@ -57,7 +57,7 @@ const MovieHeader = (props) => {
       <Typography variant="h4" component="h3">
         {movie.title}
         {" - "}
-        <a href={movie.homepage}>
+        <a href={movie.homepage} target="_blank">
           <HomeIcon color="primary" fontSize="='large" />
         </a>
         <br />

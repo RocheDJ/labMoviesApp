@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import HeaderMovieList from "../headerMovieList";
+import HeaderList from "../headerList";
 import FilterCard from "../filterMoviesCard";
 import FilterTVCard from "../filterTVCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../movieList";
-import { ThemeContext } from "@emotion/react";
+import excludeVariablesFromRoot from "@mui/material/styles/excludeVariablesFromRoot";
 
 const styles = {
   root: {
@@ -34,11 +34,11 @@ function MovieListPageTemplate({
 }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
+  const [sortByFilter, setSortByFilter] = useState("0");
+
   const [tvOrMovie, setTvOrMovie] = useState("movie");
   const [pageTitle, setPageTitle] = useState(title);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-
   const genreId = Number(genreFilter);
 
   // movie data
@@ -48,6 +48,24 @@ function MovieListPageTemplate({
     })
     .filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
+    })
+    .sort((a, b) => {
+      switch (sortByFilter) {
+        case "0":
+          return a.title > b.title ? 1 : -1;
+        case "1":
+          return a.title > b.title ? -1 : 1;
+        case "2":
+          return a.popularity > b.popularity ? 1 : -1;
+        case "3":
+          return a.popularity > b.popularity ? -1 : 1;
+        case "4":
+          return a.release_date > b.release_date ? 1 : -1;
+        case "5":
+          return a.release_date > b.release_date ? -1 : 1;
+        default:
+          return a.title > b.title ? 1 : -1;
+      }
     });
 
   // TV data
@@ -57,6 +75,20 @@ function MovieListPageTemplate({
     })
     .filter((p) => {
       return genreId > 0 ? p.genre_ids.includes(genreId) : true;
+    })
+    .sort((a, b) => {
+      switch (sortByFilter) {
+        case "0":
+          return a.name > b.name ? 1 : -1;
+        case "1":
+          return a.name > b.name ? -1 : 1;
+        case "2":
+          return a.popularity > b.popularity ? 1 : -1;
+        case "3":
+          return a.popularity > b.popularity ? -1 : 1;
+        default:
+          return a.name > b.name ? 1 : -1;
+      }
     });
 
   const handleChange = (type, value) => {
@@ -67,18 +99,20 @@ function MovieListPageTemplate({
       TVMovieChange(value);
       if (value == "movie") setPageTitle("Discover Movies");
       else setPageTitle("Discover TV");
+    } else if (type === "SortBy") {
+      setSortByFilter(value);
     }
   };
 
- 
   return (
     <>
       <Grid container sx={styles.root}>
         <Grid item xs={12}>
-          <HeaderMovieList 
-            title={pageTitle} 
-            pageChange={handleDataPageIndexChange} 
-            pageNumber={tmdbPage}/>
+          <HeaderList
+            title={pageTitle}
+            pageChange={handleDataPageIndexChange}
+            pageNumber={tmdbPage}
+          />
         </Grid>
         <Grid item container spacing={5}>
           <MovieList
@@ -86,6 +120,7 @@ function MovieListPageTemplate({
             movies={displayedMovies}
             tvPrograms={displayedTVPrograms}
             tvOrMovie={tvOrMovie}
+            sortByField={sortByFilter}
             removeFaveIconAction={removeFaveIconAction}
             addToPlaylistIconAction={addToPlaylistIconAction}
             removeFromPlaylistIconAction={removeFromPlaylistIconAction}
