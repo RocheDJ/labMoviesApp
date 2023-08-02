@@ -41,7 +41,7 @@ const TemplateMoviePage = ({ movie, children }) => {
       <Grid container spacing={5} style={{ padding: "15px" }}>
         <Grid item xs={3}>
           <div sx={styles.gridListRoot}>
-            <ImageList cols={1}>
+            <ImageList cols={2}>
               {images.map((image) => (
                 <ImageListItem
                   key={image.file_path}

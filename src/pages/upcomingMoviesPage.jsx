@@ -50,12 +50,6 @@ const UpcomingMoviesPage = (props) => {
   const tvPrograms = tvResponse.data ? tvResponse.data.results : []; // tvDataResponse.data ? tvDataResponse.data.results : [];
 
   const TVMovieChange = (value) => {
-    const sChangeTo = value;
-    if (sChangeTo == "tv") {
-      setTvOrMovie("tv");
-    } else {
-      setTvOrMovie("movie");
-    }
     props.handleTVMovieChange(value);
   };
 

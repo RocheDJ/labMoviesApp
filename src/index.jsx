@@ -15,6 +15,11 @@ import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import MoviesContextProvider from "./contexts/moviesContext";
 import TrendingTVPage from "./pages/trendingTVPage";
 
+import {
+  setSessionCookie,
+  getSessionCookie,
+} from "./components/sandbox/sessions";
+
 // testing
 import SandBox from "./components/sandbox";
 import TvContextProvider from "./contexts/tvContext";
@@ -32,30 +37,40 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  // default to looking at movies
   const [AppIsTV, setAppIsTV] = useState("movie");
+  const sessionInfo = getSessionCookie();
 
+  
   const handleTVMovieChange = (value) => {
     console.log(`Index page Handle TV Movie change value= ${value}`);
     setAppIsTV(value);
+    const sessionAppIsTV = value;
+    setSessionCookie({sessionAppIsTV});
   };
+
+  if (( sessionInfo.sessionAppIsTV ==="tv") && (AppIsTV ==="movie")) {
+    handleTVMovieChange("tv")
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader AppIsTV={AppIsTV} />
-
         <TvContextProvider>
           <MoviesContextProvider>
             <Routes>
               <Route
                 path="/"
-                element={<HomePage handleTVMovieChange={handleTVMovieChange} />}
+                element={<HomePage handleTVMovieChange={handleTVMovieChange} 
+                tvOrMovie={AppIsTV}/>}
               />
               <Route
                 path="/favorites"
                 element={
                   <FavouriteMoviesPage
                     handleTVMovieChange={handleTVMovieChange}
+                    tvOrMovie={AppIsTV}
                   />
                 }
               />
@@ -64,6 +79,7 @@ const App = () => {
                 element={
                   <WatchListMoviesPage
                     handleTVMovieChange={handleTVMovieChange}
+                    tvOrMovie={AppIsTV}
                   />
                 }
               />

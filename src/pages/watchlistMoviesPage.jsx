@@ -17,7 +17,6 @@ import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 const WatchListMoviesPage = (props) => {
   const { mustWatch: movieIds } = useContext(MoviesContext);
   const { mustWatch: tvIds } = useContext(TvContext);
-  const [ tvOrMovie, setTvOrMovie ] = React.useState("movie");
  
 
   // Create an array of queries and run them in parallel.
@@ -59,13 +58,6 @@ const WatchListMoviesPage = (props) => {
   const tvPrograms = mustWatchTvQueries.map((p) => p.data);
 
   const TVMovieChange = (value) => {
-    const sChangeTo = value;
-    if (sChangeTo == "tv") {
-      setTvOrMovie("tv");
-    } else {
-      setTvOrMovie("movie");
-    }
-    // console.log(`Home Page ${value}`);
     props.handleTVMovieChange(value);
   };
 
@@ -74,18 +66,19 @@ const WatchListMoviesPage = (props) => {
       title="Must Watch"
       movies={movies}
       tvPrograms={tvPrograms}
+      tvOrMovie={props.tvOrMovie}
       TVMovieChange={TVMovieChange}
       faveIconAction={(movie) => {
-        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <AddToFavouritesIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       removeFaveIconAction={(movie) => {
-        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       addToPlaylistIconAction={(movie) => {
-        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <AddToPlaylistIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       removeFromPlaylistIconAction={(movie) => {
-        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
     />
   );

@@ -28,6 +28,7 @@ function MovieListPageTemplate({
   handleDataPageIndexChange,
   tmdbPage,
   faveIconAction,
+  tvOrMovie,
   removeFaveIconAction,
   addToPlaylistIconAction,
   removeFromPlaylistIconAction,
@@ -35,8 +36,6 @@ function MovieListPageTemplate({
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [sortByFilter, setSortByFilter] = useState("0");
-
-  const [tvOrMovie, setTvOrMovie] = useState("movie");
   const [pageTitle, setPageTitle] = useState(title);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const genreId = Number(genreFilter);
@@ -99,8 +98,7 @@ function MovieListPageTemplate({
     if (type === "title") setTitleFilter(value);
     else if (type === "genre") setGenreFilter(value);
     else if (type === "tv_Movie") {
-      setTvOrMovie(value);
-      TVMovieChange(value);
+      TVMovieChange(value);//call the main routine
       if (value == "movie") setPageTitle("Discover Movies");
       else setPageTitle("Discover TV");
     } else if (type === "SortBy") {

@@ -13,7 +13,7 @@ import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist";
 import RemoveFromPlaylistIcon from "../components/cardIcons/removeFromPlaylist";
 
 const HomePage = (props) => {
-  const [tvOrMovie, setTvOrMovie] = React.useState("movie");
+ // const [tvOrMovie, setTvOrMovie] = React.useState("movie");
   const [tmdbPage, setTmdbPage] = React.useState(1);
   const { data, error, isLoading, isError } = useQuery(
     ["discoverMovies",{ pageID: tmdbPage }],
@@ -55,13 +55,6 @@ const HomePage = (props) => {
   let sTitle = "Discover Movies and TV";
 
   const TVMovieChange = (value) => {
-    const sChangeTo = value;
-    if (sChangeTo == "tv") {
-      setTvOrMovie("tv");
-    } else {
-      setTvOrMovie("movie");
-    }
-    // console.log(`Home Page ${value}`);
     props.handleTVMovieChange(value);
   };
 
@@ -87,17 +80,18 @@ const HomePage = (props) => {
       TVMovieChange={TVMovieChange}
       handleDataPageIndexChange={handleDataPageIndexChange}
       tmdbPage={tmdbPage}
+      tvOrMovie={props.tvOrMovie}
       faveIconAction={(movie) => {
-        return <AddToFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <AddToFavouritesIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       removeFaveIconAction={(movie) => {
-        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <RemoveFromFavouritesIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       addToPlaylistIconAction={(movie) => {
-        return <AddToPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <AddToPlaylistIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
       removeFromPlaylistIconAction={(movie) => {
-        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={tvOrMovie} />;
+        return <RemoveFromPlaylistIcon movie={movie} tvOrMovie={props.tvOrMovie} />;
       }}
     />
   );
